@@ -1,0 +1,42 @@
+Test:
+
+-> Nyuv2
+python ./code/test.py --dataset nyudepthv2 --data_path ./datasets/ --ckpt_dir ./ckpts/best_model_nyu.ckpt --do_evaluate  --save_eval_pngs  --save_visualize  --max_depth 10.0 --max_depth_eval 10.0
+
+====================================================================================================
+        d1         d2         d3    abs_rel     sq_rel       rmse   rmse_log      log10      silog
+    0.9148     0.9884     0.9971     0.0984     0.0490     0.3437     0.1236     0.0416     0.1126
+====================================================================================================
+
+python ./code/test.py --dataset nyudepthv2 --data_path ./datasets/ --ckpt_dir ./ckpts/best_model_kitti.ckpt --do_evaluate  --save_eval_pngs  --save_visualize  --max_depth 10.0 --max_depth_eval 10.0
+
+====================================================================================================
+        d1         d2         d3    abs_rel     sq_rel       rmse   rmse_log      log10      silog
+    0.0243     0.0644     0.1483     0.6087     1.1789     1.9348     1.0289     0.4323     0.7506
+====================================================================================================
+
+-> ShapenetSem
+python ./code/test.py --dataset shapenetsem --data_path ./datasets/ --ckpt_dir ./ckpts/best_model_nyu.ckpt --do_evaluate  --save_eval_pngs  --save_visualize  --max_depth 10.0 --max_depth_eval 10.0
+
+====================================================================================================
+        d1         d2         d3    abs_rel     sq_rel       rmse   rmse_log      log10      silog
+    0.2326     0.4465     0.6096     0.5896     0.8704     1.1789     0.6311     0.2701     0.4536
+====================================================================================================
+
+-> ShapenetSem_Normalized
+python ./code/test.py --dataset shapenetsem_normalized --data_path ./datasets/ --ckpt_dir ./ckpts/epoch_20_model.ckpt --do_evaluate  --save_eval_pngs  --max_depth 2.63 --max_depth_eval 2.63
+
+Train:
+
+-> Nyuv2
+python ./code/train.py --dataset nyudepthv2 --data_path ./datasets/ --max_depth 10.0 --max_depth_eval 10.0 --ckpt_dir ./ckpts/best_model_nyu.ckpt
+
+-> ShapenetSem
+python ./code/train.py --dataset shapenetsem --data_path ./datasets/ --max_depth 10.0 --max_depth_eval 10.0 --ckpt_dir ./ckpts/best_model_nyu.ckpt --save_model
+
+-> ShapenetSem_normalized
+python ./code/train.py --dataset shapenetsem_normalized --data_path ./datasets/ --max_depth 2.63 --max_depth_eval 2.63 --ckpt_dir ./ckpts/best_model_nyu.ckpt --save_model --start_epoch 0 --epochs 25
+
+Inference:
+-> ShapenetSem_Normalized
+python ./code/inference.py --dataset amazon --data_path ./datasets/ --ckpt_dir ./ckpts/model_shapenetsem_normalized_nyu_best.ckpt --max_depth 2.63 --max_depth_eval 2.63
